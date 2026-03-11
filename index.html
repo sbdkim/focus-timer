@@ -8,12 +8,14 @@
   <link rel="icon" href="data:,">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Outfit:wght@300;400;500;600&family=Geist+Mono:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500&family=Geist+Mono:wght@200;300;400&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
+
+  <!-- Full-bleed ambient background -->
   <div class="video-background" aria-hidden="true">
-    <video autoplay muted loop playsinline poster="">
+    <video autoplay muted loop playsinline>
       <source src="./assets/lofi-sanctuary.mp4" type="video/mp4">
     </video>
     <div class="overlay"></div>
@@ -22,18 +24,20 @@
 
   <div class="app-shell">
     <main class="sanctuary-layout">
+
+      <!-- ── Timer: floats transparently over the scene ── -->
       <section class="timer-panel">
         <div class="panel-kicker">Productive timer</div>
+
         <div class="mode-switch" role="tablist" aria-label="Timer mode">
           <button id="mode-pomodoro" class="mode-button is-active" type="button" data-mode="pomodoro">Pomodoro</button>
           <button id="mode-countup" class="mode-button" type="button" data-mode="countup">Count Up</button>
         </div>
 
         <div class="status-strip">
-          <div>
-            <p id="phase-title" class="status-title">Focus block</p>
-            <p id="phase-caption" class="status-caption">Pomodoro mode with calm defaults.</p>
-          </div>
+          <p id="phase-title" class="status-title">Focus block</p>
+          <!-- caption hidden via CSS — too noisy over video -->
+          <p id="phase-caption" class="status-caption" aria-hidden="true">Pomodoro mode with calm defaults.</p>
           <span id="session-pill" class="status-pill">Ready</span>
         </div>
 
@@ -68,7 +72,10 @@
         </div>
       </section>
 
+      <!-- ── Bottom tray: three glass panels anchored to foot ── -->
       <section class="bottom-tray">
+
+        <!-- Music — left -->
         <article class="music-pill music-pill-collapsed" data-music-state="collapsed">
           <button id="music-pill-toggle" class="music-pill-toggle" type="button" aria-expanded="false" aria-controls="music-panel">
             <div class="music-pill-meta">
@@ -126,6 +133,7 @@
           </div>
         </article>
 
+        <!-- Stats — center -->
         <section class="stats-panel">
           <div class="tray-head">
             <div>
@@ -141,11 +149,11 @@
               <strong id="today-total">0m</strong>
             </article>
             <article class="stat-card">
-              <p class="tray-label">Completed sessions</p>
+              <p class="tray-label">Sessions</p>
               <strong id="today-sessions">0</strong>
             </article>
             <article class="stat-card">
-              <p class="tray-label">Current streak</p>
+              <p class="tray-label">Streak</p>
               <strong id="current-streak">0 days</strong>
             </article>
           </div>
@@ -175,11 +183,11 @@
           </div>
         </section>
 
+        <!-- Utilities — right -->
         <aside id="utility-tray" class="utility-tray is-visible">
           <div class="tray-head">
             <div>
-              <p class="panel-kicker">Utilities</p>
-              <p class="tray-note">Adjust the room without leaving focus.</p>
+              <p class="panel-kicker">Settings</p>
             </div>
             <button id="theme-toggle" class="utility-button" type="button" aria-label="Toggle theme">Light mode</button>
           </div>
@@ -203,12 +211,12 @@
             </label>
           </div>
         </aside>
+
       </section>
     </main>
   </div>
 
   <div id="banner" class="banner" hidden></div>
-
   <script src="./js/app.js"></script>
 </body>
 </html>
