@@ -175,6 +175,13 @@ button {
   font-size: 0.88rem;
 }
 
+#loop-indicator {
+  min-height: 28px;
+  padding: 0 8px;
+  border-radius: 7px;
+  font-size: 0.8rem;
+}
+
 .mode-switch {
   display: inline-flex;
   gap: 8px;
@@ -222,14 +229,17 @@ button {
 
 .timer-stage {
   position: relative;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 12px 0 20px;
-  min-height: 330px;
+  min-height: 390px;
+  padding: 20px 0 28px;
 }
 
 .progress-ring {
-  width: min(100%, 360px);
+  width: min(100%, 410px);
+  aspect-ratio: 1;
   transform: rotate(-90deg);
 }
 
@@ -251,11 +261,16 @@ button {
 
 .timer-readout {
   position: absolute;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  width: min(100%, 260px);
+  padding: 0 18px;
   text-align: center;
 }
 
 .timer-label {
-  margin: 0 0 8px;
+  margin: 0;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -264,9 +279,15 @@ button {
 
 .timer-display {
   font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(4rem, 10vw, 5.8rem);
+  font-size: clamp(3.6rem, 9vw, 5.2rem);
   font-weight: 700;
   letter-spacing: -0.06em;
+  line-height: 0.9;
+}
+
+.timer-hint {
+  max-width: 20ch;
+  line-height: 1.45;
 }
 
 .action-row {
@@ -313,6 +334,9 @@ button {
 }
 
 .upload-button {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
   cursor: pointer;
 }
 
@@ -328,6 +352,24 @@ button {
   margin: 4px 0 0;
   font-size: 1rem;
   font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.track-meta {
+  align-items: start;
+}
+
+.track-meta > div:first-child {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.upload-button span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .audio-facts {
@@ -501,6 +543,24 @@ input[type="range"] {
   .upload-button,
   .upload-button span {
     width: 100%;
+  }
+
+  .timer-stage {
+    min-height: 320px;
+    padding-bottom: 18px;
+  }
+
+  .progress-ring {
+    width: min(100%, 330px);
+  }
+
+  .timer-readout {
+    width: min(100%, 232px);
+    gap: 8px;
+  }
+
+  .timer-display {
+    font-size: clamp(3rem, 17vw, 4.4rem);
   }
 
   .player-row {

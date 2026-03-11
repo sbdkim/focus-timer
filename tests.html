@@ -145,13 +145,65 @@
         var now = new Date("2026-03-11T12:00:00Z");
         var engine = app.createStatsEngine({ nowProvider: function () { return now; } });
         var sessions = [
-          { completedAt: "2026-03-11T09:00:00Z", durationSeconds: 1800 },
-          { completedAt: "2026-03-10T09:00:00Z", durationSeconds: 3600 },
-          { completedAt: "2026-03-09T09:00:00Z", durationSeconds: 1200 }
+          { completedAt: "2026-03-11T09:00:00Z", durationSeconds: 1800, phase: "focus", outcome: "completed" },
+          { completedAt: "2026-03-10T09:00:00Z", durationSeconds: 3600, phase: "focus", outcome: "completed" },
+          { completedAt: "2026-03-09T09:00:00Z", durationSeconds: 1200, phase: "focus", outcome: "completed" }
         ];
         var today = engine.getTodayStats(sessions);
         assert(today.minutes === 30, "Today should total 30 minutes");
         assert(engine.getStreak(sessions) === 3, "Expected a 3-day streak");
+      });
+
+      runTest("Interrupted resets do not inflate focused time totals", function () {
+        var now = new Date("2026-03-11T12:00:00Z");
+        var engine = app.createStatsEngine({ nowProvider: function () { return now; } });
+        var sessions = [
+          { completedAt: "2026-03-11T09:00:00Z", durationSeconds: 20, phase: "focus", outcome: "interrupted" },
+          { completedAt: "2026-03-11T09:05:00Z", durationSeconds: 45, phase: "focus", outcome: "interrupted" }
+        ];
+        var today = engine.getTodayStats(sessions);
+        assert(today.minutes === 0, "Interrupted sessions should not count toward focused time");
+        assert(today.sessions === 0, "Interrupted sessions should not count as completed sessions");
+      });
+
+      runTest("Break sessions do not count toward focus totals", function () {
+        var now = new Date("2026-03-11T12:00:00Z");
+        var engine = app.createStatsEngine({ nowProvider: function () { return now; } });
+        var sessions = [
+          { completedAt: "2026-03-11T09:00:00Z", durationSeconds: 300, phase: "shortBreak", outcome: "completed" },
+          { completedAt: "2026-03-11T09:30:00Z", durationSeconds: 1500, phase: "focus", outcome: "completed" }
+        ];
+        var today = engine.getTodayStats(sessions);
+        assert(today.minutes === 25, "Only completed focus sessions should count");
+        assert(today.sessions === 1, "Only focus completions should count as completed sessions");
+      });
+
+      runTest("Pomodoro completion returns the phase that actually finished", function () {
+        var timer = app.createTimerEngine(app.DEFAULTS);
+        timer.start(0);
+        var result = timer.tick(1500000);
+        assert(result.completed === true, "Expected completion");
+        assert(result.completedPhase === "focus", "Completed phase should be focus");
+        assert(result.completedDurationSeconds === 1500, "Completed duration should match focus length");
+        assert(timer.state.phase === "shortBreak", "Timer should advance after completion");
+      });
+
+      runTest("Interrupted pomodoro sessions preserve elapsed seconds", function () {
+        var timer = app.createTimerEngine(app.DEFAULTS);
+        timer.start(0);
+        timer.tick(42000);
+        assert(timer.state.elapsedSeconds === 42, "Interrupted focus runs should keep actual elapsed time");
+        assert(timer.state.remainingSeconds === 1458, "Remaining seconds should shrink from actual elapsed time");
+      });
+
+      runTest("Count-up sessions do not pollute focused stats", function () {
+        var now = new Date("2026-03-11T12:00:00Z");
+        var engine = app.createStatsEngine({ nowProvider: function () { return now; } });
+        var sessions = [
+          { completedAt: "2026-03-11T10:00:00Z", durationSeconds: 600, phase: "focus", outcome: "interrupted", mode: "countup" }
+        ];
+        var today = engine.getTodayStats(sessions);
+        assert(today.minutes === 0, "Count-up interruptions should not add to focused time");
       });
 
       runTest("Theme preference persists across reload data", function () {

@@ -150,7 +150,7 @@
       var summary = {};
 
       (sessions || []).forEach(function (session) {
-        if (!session || !session.completedAt) {
+        if (!session || !session.completedAt || session.phase !== "focus" || session.outcome !== "completed") {
           return;
         }
 
@@ -333,8 +333,15 @@
       state.elapsedSeconds += deltaSeconds;
 
       if (state.remainingSeconds === 0) {
+        var completedPhase = state.phase;
+        var completedDurationSeconds = getPhaseDurationSeconds(completedPhase);
         advancePhase();
-        return { completed: true, advanced: true };
+        return {
+          completed: true,
+          advanced: true,
+          completedPhase: completedPhase,
+          completedDurationSeconds: completedDurationSeconds
+        };
       }
 
       return { completed: false, advanced: false };
@@ -611,23 +618,34 @@
       els.themeToggle.textContent = root.dataset.theme === "dark" ? "Light mode" : "Dark mode";
     }
 
-    function createSessionRecord(outcome) {
+    function createSessionRecord(outcome, details) {
       var snapshot = env.timer.snapshot();
-      var seconds = snapshot.mode === "countup"
-        ? snapshot.elapsedSeconds
-        : env.timer.getPhaseDurationSeconds(snapshot.phase);
+      var info = details || {};
+      var phase = info.phase || snapshot.phase;
+      var seconds;
+
+      if (typeof info.durationSeconds === "number") {
+        seconds = info.durationSeconds;
+      } else if (snapshot.mode === "countup" || outcome === "interrupted") {
+        seconds = snapshot.elapsedSeconds;
+      } else {
+        seconds = env.timer.getPhaseDurationSeconds(phase);
+      }
 
       return {
         id: "session-" + Date.now(),
         mode: snapshot.mode,
-        phase: snapshot.phase,
-        durationSeconds: seconds,
+        phase: phase,
+        durationSeconds: Math.max(0, Math.round(seconds || 0)),
         completedAt: new Date().toISOString(),
         outcome: outcome
       };
     }
 
     function recordSession(result) {
+      if (!result || result.durationSeconds <= 0) {
+        return;
+      }
       env.sessions.unshift(result);
       env.sessions = env.sessions.slice(0, 60);
       persistSessions();
@@ -773,7 +791,10 @@
       var result = env.timer.tick(Date.now());
       renderTimer();
       if (result.completed && env.timer.state.mode === "pomodoro") {
-        recordSession(createSessionRecord("completed"));
+        recordSession(createSessionRecord("completed", {
+          phase: result.completedPhase,
+          durationSeconds: result.completedDurationSeconds
+        }));
         showBanner("Phase complete. You can jump into the next block when ready.", "warning");
         playChime();
       }
@@ -890,6 +911,9 @@
         }
         renderTimer();
       } else if (event.key.toLowerCase() === "r") {
+        if (env.timer.state.status !== "idle" && env.timer.state.elapsedSeconds > 0) {
+          recordSession(createSessionRecord("interrupted"));
+        }
         env.timer.reset();
         renderTimer();
       } else if (event.key.toLowerCase() === "t") {
