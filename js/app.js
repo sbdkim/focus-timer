@@ -542,7 +542,8 @@
     var root = documentRef.body;
     var banner = documentRef.getElementById("banner");
     var ring = documentRef.getElementById("progress-ring-value");
-    var ringLength = 2 * Math.PI * 96;
+    var ringRadius = Number(ring.getAttribute("r")) || 96;
+    var ringLength = 2 * Math.PI * ringRadius;
     var utilityHideTimer = null;
     var prefersHover = typeof window.matchMedia === "function"
       ? window.matchMedia("(hover: hover) and (pointer: fine)").matches
@@ -1048,6 +1049,12 @@
     renderHistoryVisibility();
     renderUtilityVisibility();
     scheduleUtilityHide();
+    env.audioController.play().then(function (result) {
+      renderAudio();
+      if (!result.ok) {
+        showBanner("Autoplay was blocked by this browser. Press play to start the soundtrack.", "warning");
+      }
+    });
 
     return {
       destroy: function () {

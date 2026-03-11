@@ -236,7 +236,7 @@ button {
   position: relative;
   display: grid;
   place-items: center;
-  width: min(100%, 560px);
+  width: min(100%, 640px);
   margin: 0 auto 22px;
 }
 
@@ -245,7 +245,7 @@ body[data-timer-running="true"] .timer-stage {
 }
 
 .progress-ring {
-  width: min(100%, 500px);
+  width: min(100%, 620px);
   aspect-ratio: 1;
   transform: rotate(-90deg);
   filter: drop-shadow(0 0 24px rgba(240, 168, 104, 0.18));
@@ -272,13 +272,13 @@ body[data-timer-running="true"] .timer-stage {
   display: grid;
   gap: 10px;
   justify-items: center;
-  width: min(100%, 340px);
-  padding: 0 20px;
+  width: min(100%, 360px);
+  padding: 0 18px;
 }
 
 .timer-display {
   font-family: "DM Mono", monospace;
-  font-size: clamp(5rem, 15vw, 9rem);
+  font-size: clamp(4.5rem, 12vw, 7.5rem);
   font-weight: 300;
   letter-spacing: 0.05em;
   line-height: 0.92;
@@ -775,11 +775,11 @@ body[data-phase-tone="focus"] {
   }
 
   .progress-ring {
-    width: min(100%, 360px);
+    width: min(100%, 420px);
   }
 
   .timer-readout {
-    width: min(100%, 260px);
+    width: min(100%, 280px);
   }
 
   .control-row {
