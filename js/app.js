@@ -449,6 +449,14 @@
       });
     }
 
+    function pause() {
+      if (!audio) {
+        return;
+      }
+      audio.pause();
+      state.status = "paused";
+    }
+
     function stop() {
       if (!audio) {
         return;
@@ -499,6 +507,7 @@
       setVolume: setVolume,
       toggleMute: toggleMute,
       play: play,
+      pause: pause,
       stop: stop,
       setSeek: setSeek,
       attachUploadedFile: attachUploadedFile,
@@ -846,12 +855,19 @@
       els.volumeSlider.value = String(Math.round(snapshot.volume * 100));
       els.audioMute.textContent = snapshot.muted ? "Unmute" : "Mute";
       els.audioSourceNote.textContent = snapshot.sourceType === "builtin" ? "Built-in loop" : "Uploaded track";
-      els.audioPlay.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6.5v11l9-5.5z"></path></svg>';
-      els.audioPlay.setAttribute("aria-label", "Play audio");
+      if (snapshot.status === "playing") {
+        els.audioPlay.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h3.5v12H8zM12.5 6H16v12h-3.5z"></path></svg>';
+        els.audioPlay.setAttribute("aria-label", "Pause audio");
+      } else {
+        els.audioPlay.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6.5v11l9-5.5z"></path></svg>';
+        els.audioPlay.setAttribute("aria-label", "Play audio");
+      }
       els.audioStatus.textContent = snapshot.status === "blocked"
         ? "Playback needs a direct user action in this browser."
         : snapshot.status === "playing"
           ? "Looping with focus mode ready."
+          : snapshot.status === "paused"
+            ? "Soundtrack paused. Press play to continue."
           : "Built-in track stays idle until you press play.";
       var current = snapshot.currentTime || 0;
       var total = snapshot.duration || 0;
@@ -966,15 +982,21 @@
     });
 
     els.audioPlay.addEventListener("click", function () {
-      env.audioController.play().then(function (result) {
+      var snapshot = env.audioController.getSnapshot();
+      if (snapshot.status === "playing") {
+        env.audioController.pause();
         renderAudio();
-        if (!result.ok) {
-          showBanner("Playback is waiting for a direct browser gesture. Press Play again if needed.", "warning");
-          armAutoplayRetry();
-        } else {
-          disarmAutoplayRetry();
-        }
-      });
+      } else {
+        env.audioController.play().then(function (result) {
+          renderAudio();
+          if (!result.ok) {
+            showBanner("Playback is waiting for a direct browser gesture. Press Play again if needed.", "warning");
+            armAutoplayRetry();
+          } else {
+            disarmAutoplayRetry();
+          }
+        });
+      }
       scheduleUtilityHide();
     });
 
@@ -1033,6 +1055,8 @@
       env.audioElement.addEventListener("timeupdate", renderAudio);
       env.audioElement.addEventListener("ended", renderAudio);
       env.audioElement.addEventListener("loadedmetadata", renderAudio);
+      env.audioElement.addEventListener("pause", renderAudio);
+      env.audioElement.addEventListener("play", renderAudio);
     }
 
     if (els.backgroundVideo) {
