@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productive Timer Tests</title>
+  <link rel="icon" href="data:,">
+  <style>
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: "Segoe UI", sans-serif;
+      background: #111315;
+      color: #e7ecf2;
+    }
+
+    .results {
+      max-width: 860px;
+      margin: 0 auto;
+      display: grid;
+      gap: 12px;
+    }
+
+    .result {
+      padding: 14px 16px;
+      border: 1px solid #313944;
+      border-radius: 8px;
+      background: #191c20;
+    }
+
+    .pass {
+      border-color: rgba(24, 181, 138, 0.45);
+    }
+
+    .fail {
+      border-color: rgba(214, 91, 97, 0.6);
+    }
+  </style>
+</head>
+<body data-test-page="true">
+  <div class="results">
+    <h1>Productive Timer Test Suite</h1>
+    <div id="summary"></div>
+    <div id="results"></div>
+  </div>
+
+  <script src="./js/app.js"></script>
+  <script>
+    (function () {
+      var app = window.ProductiveTimerApp;
+      var resultsNode = document.getElementById("results");
+      var summaryNode = document.getElementById("summary");
+      var passCount = 0;
+      var failCount = 0;
+
+      function assert(condition, message) {
+        if (!condition) {
+          throw new Error(message);
+        }
+      }
+
+      function logResult(name, error) {
+        var div = document.createElement("div");
+        div.className = "result " + (error ? "fail" : "pass");
+        div.textContent = (error ? "FAIL: " : "PASS: ") + name + (error ? " - " + error.message : "");
+        resultsNode.appendChild(div);
+      }
+
+      function runTest(name, fn) {
+        try {
+          fn();
+          passCount += 1;
+          logResult(name);
+        } catch (error) {
+          failCount += 1;
+          logResult(name, error);
+        }
+      }
+
+      function createMemoryStorage(throwOnSet) {
+        var map = {};
+        return {
+          getItem: function (key) { return Object.prototype.hasOwnProperty.call(map, key) ? map[key] : null; },
+          setItem: function (key, value) {
+            if (throwOnSet) {
+              throw new Error("Quota exceeded");
+            }
+            map[key] = value;
+          },
+          removeItem: function (key) { delete map[key]; }
+        };
+      }
+
+      runTest("Pomodoro mode initializes with default durations", function () {
+        var timer = app.createTimerEngine(app.DEFAULTS);
+        assert(timer.state.mode === "pomodoro", "Expected pomodoro mode");
+        assert(timer.state.remainingSeconds === 1500, "Expected 25 minutes");
+      });
+
+      runTest("Count Up mode increments elapsed time correctly", function () {
+        var timer = app.createTimerEngine(app.DEFAULTS);
+        timer.setMode("countup");
+        timer.start(0);
+        timer.tick(30000);
+        assert(timer.state.elapsedSeconds === 30, "Expected 30 seconds elapsed");
+      });
+
+      runTest("Start, pause, resume, and reset transitions work", function () {
+        var timer = app.createTimerEngine(app.DEFAULTS);
+        timer.start(0);
+        assert(timer.state.status === "running", "Should be running");
+        timer.pause(2000);
+        assert(timer.state.status === "paused", "Should be paused");
+        timer.start(2000);
+        assert(timer.state.status === "running", "Should resume running");
+        timer.reset();
+        assert(timer.state.status === "idle", "Should reset to idle");
+      });
+
+      runTest("localStorage save and load round-trip preserves settings", function () {
+        var storage = app.createStorageAdapter(createMemoryStorage(false));
+        var settings = app.mergeSettings(app.DEFAULTS, {
+          theme: "light",
+          timerMode: "countup",
+          durations: { focus: 40, shortBreak: 8, longBreak: 20 }
+        });
+        assert(storage.write(app.STORAGE_KEYS.settings, settings) === true, "Write should succeed");
+        var readBack = storage.read(app.STORAGE_KEYS.settings, app.DEFAULTS);
+        assert(readBack.theme === "light", "Theme should persist");
+        assert(readBack.durations.focus === 40, "Focus duration should persist");
+      });
+
+      runTest("Reload restore logic rebuilds saved preferences", function () {
+        var restored = app.mergeSettings(app.DEFAULTS, {
+          muted: true,
+          volume: 0.33,
+          audio: { type: "custom", trackName: "Deep Work.wav" }
+        });
+        assert(restored.muted === true, "Muted should restore");
+        assert(restored.volume === 0.33, "Volume should restore");
+        assert(restored.audio.trackName === "Deep Work.wav", "Track name should restore");
+      });
+
+      runTest("Daily totals and streak calculations are correct", function () {
+        var now = new Date("2026-03-11T12:00:00Z");
+        var engine = app.createStatsEngine({ nowProvider: function () { return now; } });
+        var sessions = [
+          { completedAt: "2026-03-11T09:00:00Z", durationSeconds: 1800 },
+          { completedAt: "2026-03-10T09:00:00Z", durationSeconds: 3600 },
+          { completedAt: "2026-03-09T09:00:00Z", durationSeconds: 1200 }
+        ];
+        var today = engine.getTodayStats(sessions);
+        assert(today.minutes === 30, "Today should total 30 minutes");
+        assert(engine.getStreak(sessions) === 3, "Expected a 3-day streak");
+      });
+
+      runTest("Theme preference persists across reload data", function () {
+        var saved = app.mergeSettings(app.DEFAULTS, { theme: "light" });
+        assert(saved.theme === "light", "Theme should be light");
+      });
+
+      runTest("Audio controller accepts built-in config and play state changes", function () {
+        var fakeAudio = {
+          src: "",
+          loop: false,
+          preload: "",
+          volume: 0,
+          muted: false,
+          duration: 120,
+          currentTime: 0,
+          play: function () { return Promise.resolve(); },
+          pause: function () {}
+        };
+        var controller = app.createAudioController({ audioElement: fakeAudio });
+        controller.loadBuiltin();
+        assert(fakeAudio.src.indexOf("productive-timer-default.mp3") !== -1, "Built-in source should load");
+      });
+
+      runTest("Invalid uploaded file is rejected safely", function () {
+        var fakeAudio = {
+          src: "",
+          loop: false,
+          preload: "",
+          volume: 0,
+          muted: false,
+          duration: 120,
+          currentTime: 0,
+          play: function () { return Promise.resolve(); },
+          pause: function () {}
+        };
+        var controller = app.createAudioController({ audioElement: fakeAudio });
+        var result = controller.attachUploadedFile({ name: "notes.txt", type: "text/plain" });
+        assert(result.ok === false, "Invalid files should fail");
+      });
+
+      runTest("Storage-unavailable path falls back gracefully", function () {
+        var storage = app.createStorageAdapter(createMemoryStorage(true));
+        var ok = storage.write("demo", { a: 1 });
+        assert(ok === false, "Write should fail");
+        assert(storage.isAvailable() === false, "Storage should be marked unavailable");
+      });
+
+      summaryNode.textContent = "Passed " + passCount + " of " + (passCount + failCount) + " tests.";
+    }());
+  </script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productive Timer</title>
+  <meta name="description" content="Focused work timer with built-in music, custom uploads, and local productivity tracking.">
+  <link rel="icon" href="data:,">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyeline">Productive Timer</p>
+        <p class="subline">Focused sessions, one soundtrack, clear daily momentum.</p>
+      </div>
+      <div class="topbar-actions">
+        <button id="theme-toggle" class="ghost-button" type="button" aria-label="Toggle theme">Light mode</button>
+      </div>
+    </header>
+
+    <main class="dashboard">
+      <section class="hero-panel">
+        <div class="panel-head">
+          <div>
+            <h1 id="phase-title">Focus block</h1>
+            <p id="phase-caption">Pomodoro mode with calm defaults.</p>
+          </div>
+          <span id="session-pill" class="panel-pill">Ready</span>
+        </div>
+
+        <div class="mode-switch" role="tablist" aria-label="Timer mode">
+          <button id="mode-pomodoro" class="mode-button is-active" type="button" data-mode="pomodoro">Pomodoro</button>
+          <button id="mode-countup" class="mode-button" type="button" data-mode="countup">Count Up</button>
+        </div>
+
+        <div class="timer-stage">
+          <svg class="progress-ring" viewBox="0 0 220 220" aria-hidden="true">
+            <circle class="progress-ring-track" cx="110" cy="110" r="96"></circle>
+            <circle id="progress-ring-value" class="progress-ring-value" cx="110" cy="110" r="96"></circle>
+          </svg>
+          <div class="timer-readout">
+            <p id="phase-label" class="timer-label">Focus</p>
+            <div id="timer-display" class="timer-display">25:00</div>
+            <p id="timer-hint" class="timer-hint">Start when you are ready.</p>
+          </div>
+        </div>
+
+        <div class="action-row">
+          <button id="start-button" class="primary-button" type="button">Start</button>
+          <button id="pause-button" class="secondary-button" type="button">Pause</button>
+          <button id="reset-button" class="secondary-button" type="button">Reset</button>
+          <button id="skip-button" class="ghost-button" type="button">Skip</button>
+        </div>
+
+        <div class="settings-grid">
+          <label class="field">
+            <span>Focus</span>
+            <input id="focus-minutes" type="number" min="1" max="120" step="1">
+          </label>
+          <label class="field">
+            <span>Short break</span>
+            <input id="short-break-minutes" type="number" min="1" max="60" step="1">
+          </label>
+          <label class="field">
+            <span>Long break</span>
+            <input id="long-break-minutes" type="number" min="1" max="90" step="1">
+          </label>
+        </div>
+      </section>
+
+      <section class="music-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Music deck</h2>
+            <p id="audio-status" class="panel-note">Built-in track stays idle until you press play.</p>
+          </div>
+          <span id="loop-indicator" class="panel-pill">Loop on</span>
+        </div>
+
+        <div class="track-meta">
+          <div>
+            <p class="meta-label">Current track</p>
+            <p id="track-name" class="track-name">3 AM Coding Session - Lofi Hip Hop Mix</p>
+          </div>
+          <label class="upload-button">
+            <input id="audio-upload" type="file" accept="audio/*">
+            <span>Upload audio</span>
+          </label>
+        </div>
+
+        <div class="player-row">
+          <button id="audio-play" class="primary-button" type="button">Play</button>
+          <button id="audio-stop" class="secondary-button" type="button">Stop</button>
+          <button id="audio-mute" class="ghost-button" type="button">Mute</button>
+        </div>
+
+        <label class="slider-field">
+          <span>Seek</span>
+          <input id="seek-slider" type="range" min="0" max="100" value="0">
+        </label>
+
+        <div class="slider-grid">
+          <label class="slider-field">
+            <span>Volume</span>
+            <input id="volume-slider" type="range" min="0" max="100" value="72">
+          </label>
+          <div class="audio-facts">
+            <p id="audio-time">00:00 / 00:00</p>
+            <p id="audio-source-note">Built-in loop</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="stats-panel">
+        <div class="panel-head">
+          <div>
+            <h2>Today</h2>
+            <p class="panel-note">A clean read on what actually happened.</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <p class="meta-label">Focused time</p>
+            <strong id="today-total">0m</strong>
+          </article>
+          <article class="stat-card">
+            <p class="meta-label">Completed sessions</p>
+            <strong id="today-sessions">0</strong>
+          </article>
+          <article class="stat-card">
+            <p class="meta-label">Current streak</p>
+            <strong id="current-streak">0 days</strong>
+          </article>
+        </div>
+
+        <div class="history-grid">
+          <article class="history-card">
+            <div class="panel-head compact">
+              <div>
+                <h3>Last 7 days</h3>
+                <p class="panel-note">Minutes of productive work per day.</p>
+              </div>
+            </div>
+            <div id="chart-bars" class="chart-bars" aria-label="Last 7 days chart"></div>
+          </article>
+
+          <article class="history-card">
+            <div class="panel-head compact">
+              <div>
+                <h3>Recent sessions</h3>
+                <p class="panel-note">Latest completed or interrupted blocks.</p>
+              </div>
+            </div>
+            <ul id="session-list" class="session-list"></ul>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="banner" class="banner" hidden></div>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>
