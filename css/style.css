@@ -1008,7 +1008,7 @@ body[data-theme="light"] .field input {
   .music-pill {
     grid-template-columns: 1fr;
     position: relative;
-    padding-right: 64px;
+    padding-right: 14px;
   }
 
   .music-pill-toggle {
@@ -1016,10 +1016,17 @@ body[data-theme="light"] .field input {
   }
 
   .pill-action {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 2;
+    position: static;
+    justify-self: end;
+    margin-top: 2px;
+  }
+
+  .music-panel {
+    position: static;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin-top: 10px;
   }
 
   .settings-grid { grid-template-columns: repeat(3, 1fr); }
