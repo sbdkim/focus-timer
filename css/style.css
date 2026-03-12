@@ -59,33 +59,33 @@ body[data-phase-tone="break"] { --accent: var(--sage);  --accent-glow: var(--sag
 body[data-theme="light"] {
   color-scheme: light;
 
-  /* Light background — warm parchment */
-  --bg-base: #f2e4ce;
-  --bg-mid:  #eddfc6;
+  /* Light background — cool mist / overcast sky */
+  --bg-base: #dde6f0;
+  --bg-mid:  #d4dfe9;
 
-  /* Glass panels — light-tinted */
-  --glass:       rgba(255, 248, 235, 0.55);
-  --glass-hover: rgba(255, 248, 235, 0.72);
-  --glass-panel: rgba(255, 245, 228, 0.82);
+  /* Glass panels — cool blue-white tinted */
+  --glass:       rgba(220, 232, 248, 0.55);
+  --glass-hover: rgba(220, 232, 248, 0.72);
+  --glass-panel: rgba(215, 228, 246, 0.82);
 
-  /* Text — always dark brown in light mode */
-  --text:   #1e1006;
-  --text-2: rgba(30, 16, 6, 0.66);
-  --text-3: rgba(30, 16, 6, 0.42);
+  /* Text — deep cool navy, always legible */
+  --text:   #0e1624;
+  --text-2: rgba(14, 22, 36, 0.66);
+  --text-3: rgba(14, 22, 36, 0.42);
 
-  --line:        rgba(100, 55, 10, 0.13);
-  --line-bright: rgba(100, 55, 10, 0.24);
+  --line:        rgba(80, 110, 160, 0.13);
+  --line-bright: rgba(80, 110, 160, 0.24);
 
-  /* Accents — slightly deeper for contrast on light bg */
-  --amber:      #c07020;
-  --amber-glow: rgba(192, 112, 32, 0.32);
-  --amber-dim:  rgba(192, 112, 32, 0.14);
-  --sage:       #4a8832;
-  --sage-glow:  rgba(74, 136, 50, 0.28);
-  --sage-dim:   rgba(74, 136, 50, 0.12);
+  /* Accents — cooler tones for light mode */
+  --amber:      #3d7abf;
+  --amber-glow: rgba(61, 122, 191, 0.32);
+  --amber-dim:  rgba(61, 122, 191, 0.14);
+  --sage:       #3a9e7a;
+  --sage-glow:  rgba(58, 158, 122, 0.28);
+  --sage-dim:   rgba(58, 158, 122, 0.12);
 
-  --shadow:    0 8px 40px rgba(90, 50, 10, 0.18), 0 2px 8px rgba(90, 50, 10, 0.10);
-  --shadow-sm: 0 4px 16px rgba(90, 50, 10, 0.14);
+  --shadow:    0 8px 40px rgba(20, 40, 80, 0.16), 0 2px 8px rgba(20, 40, 80, 0.10);
+  --shadow-sm: 0 4px 16px rgba(20, 40, 80, 0.12);
 }
 
 /* ─── Reset ───────────────────────────────────────────────── */
@@ -168,30 +168,35 @@ body {
   animation: drift 26s ease-in-out infinite alternate;
 }
 
-/* Light mode gradient fallback */
+/* Light mode gradient fallback — cool mist palette */
 body[data-theme="light"] .gradient-fallback {
   background:
+    /* periwinkle bloom top-left */
     radial-gradient(ellipse 60% 55% at 12% 18%,
-      rgba(232, 170, 90, 0.50) 0%, transparent 60%),
+      rgba(130, 170, 230, 0.55) 0%, transparent 60%),
+    /* sky shimmer top-right */
     radial-gradient(ellipse 50% 40% at 88% 8%,
-      rgba(255, 225, 160, 0.40) 0%, transparent 55%),
+      rgba(190, 215, 245, 0.45) 0%, transparent 55%),
+    /* seafoam accent bottom-right */
     radial-gradient(ellipse 45% 50% at 82% 90%,
-      rgba(143, 200, 120, 0.30) 0%, transparent 55%),
+      rgba(100, 190, 180, 0.30) 0%, transparent 55%),
+    /* lavender bottom-left */
     radial-gradient(ellipse 40% 45% at 8% 88%,
-      rgba(220, 140, 70, 0.25) 0%, transparent 52%),
+      rgba(160, 140, 220, 0.22) 0%, transparent 52%),
+    /* cool slate base */
     linear-gradient(145deg,
-      #f0d8a8 0%,
-      #eaceA0 25%,
-      #f2d8aa 50%,
-      #ead4a0 75%,
-      #eed6a4 100%);
+      #c8d8ec 0%,
+      #d0dff0 25%,
+      #cad9ed 50%,
+      #d4e0f0 75%,
+      #ccd9ea 100%);
 }
 
-/* Light mode overlay — barely dims, just softens */
+/* Light mode overlay — cool veil */
 body[data-theme="light"] .overlay {
   background: radial-gradient(ellipse 90% 90% at 50% 50%,
-    rgba(255,245,220,0.08) 0%,
-    rgba(180,120,40,0.12) 100%);
+    rgba(200,220,255,0.08) 0%,
+    rgba(80,100,160,0.12) 100%);
 }
 
 /* ─── App shell ───────────────────────────────────────────── */
@@ -421,7 +426,7 @@ body[data-timer-running="true"] .timer-hint { opacity: 0; }
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 14px;
+  gap: 18px;
   margin-top: 24px;
 }
 
@@ -441,6 +446,13 @@ body[data-timer-running="true"] .timer-hint { opacity: 0; }
   transition: background 0.2s, box-shadow 0.2s, transform 0.16s;
 }
 
+.icon-slot {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
 .icon-button:hover,
 .pill-action:hover {
   background: var(--glass-hover);
@@ -452,13 +464,15 @@ body[data-timer-running="true"] .timer-hint { opacity: 0; }
 .pill-action:active { transform: scale(0.94); }
 
 .icon-button-primary {
-  border-color: rgba(232,160,80,0.42);
+  border-color: var(--accent-glow);
   background: var(--accent-dim);
 }
 
 .icon-button-primary:hover {
-  background: rgba(232,160,80,0.26);
+  background: var(--accent-dim);
+  border-color: var(--accent);
   box-shadow: 0 4px 22px var(--accent-glow);
+  opacity: 0.85;
 }
 
 .icon-button svg,
@@ -466,6 +480,8 @@ body[data-timer-running="true"] .timer-hint { opacity: 0; }
   width: 18px;
   height: 18px;
   fill: currentColor;
+  display: block;
+  margin: auto;
 }
 
 #pause-button[hidden],
@@ -594,7 +610,7 @@ body[data-timer-running="true"] .timer-hint { opacity: 0; }
 }
 
 body[data-theme="light"] .music-panel {
-  background: rgba(255,240,210,0.25);
+  background: rgba(200, 220, 248, 0.22);
 }
 
 /* ─── Stats panel ─────────────────────────────────────────── */
@@ -621,7 +637,7 @@ body[data-theme="light"] .music-panel {
 }
 
 body[data-theme="light"] .stat-card {
-  background: rgba(255,240,210,0.35);
+  background: rgba(200, 220, 248, 0.35);
 }
 
 .stat-card:hover { background: rgba(255,236,208,0.12); }
@@ -661,26 +677,34 @@ body[data-theme="light"] .stat-card {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   align-items: end;
-  gap: 6px;
-  min-height: 120px;
-  padding-top: 12px;
+  gap: 4px;
+  min-height: 96px;
+  padding-top: 6px;
 }
 
-.chart-bar { display: grid; gap: 6px; justify-items: center; }
+.chart-bar {
+  display: grid;
+  gap: 4px;
+  justify-items: center;
+  min-width: 0;
+}
 
 .chart-bar span {
   font-family: "Syne", sans-serif;
-  font-size: 0.62rem;
+  font-size: 0.56rem;
   font-weight: 600;
   color: var(--text-3);
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .chart-bar-fill {
   width: 100%;
-  min-height: 12px;
+  min-height: 10px;
   border-radius: 4px 4px 0 0;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dim) 100%);
+  max-width: 18px;
 }
 
 .session-list {
@@ -891,7 +915,7 @@ input[type="range"] {
 }
 
 body[data-theme="light"] .field input {
-  background: rgba(255,240,210,0.40);
+  background: rgba(200, 220, 248, 0.40);
 }
 
 .field input:focus {

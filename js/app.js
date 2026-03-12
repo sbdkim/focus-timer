@@ -115,6 +115,10 @@
     return date.toLocaleDateString(undefined, { weekday: "short" });
   }
 
+  function formatCompactDateLabel(dateString) {
+    return formatDateLabel(dateString).charAt(0);
+  }
+
   function startOfToday(now) {
     var base = now ? new Date(now) : new Date();
     base.setHours(0, 0, 0, 0);
@@ -199,6 +203,7 @@
         return {
           dayKey: dayKey,
           label: formatDateLabel(dayKey),
+          compactLabel: formatCompactDateLabel(dayKey),
           minutes: summary[dayKey] ? summary[dayKey].minutes : 0
         };
       });
@@ -814,10 +819,8 @@
         fill.style.height = Math.max(18, Math.round((item.minutes / maxMinutes) * 140)) + "px";
         fill.title = item.minutes + " minutes";
         var label = documentRef.createElement("span");
-        label.textContent = item.label;
-        var value = documentRef.createElement("span");
-        value.textContent = item.minutes + "m";
-        wrapper.appendChild(value);
+        label.textContent = item.compactLabel || item.label;
+        label.title = item.label;
         wrapper.appendChild(fill);
         wrapper.appendChild(label);
         els.chartBars.appendChild(wrapper);
