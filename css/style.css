@@ -1001,6 +1001,23 @@ body[data-theme="light"] .field input {
 
   .icon-button, .pill-action { width: 44px; height: 44px; }
 
+  .music-pill {
+    grid-template-columns: 1fr;
+    position: relative;
+    padding-right: 64px;
+  }
+
+  .music-pill-toggle {
+    width: 100%;
+  }
+
+  .pill-action {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+  }
+
   .settings-grid { grid-template-columns: repeat(3, 1fr); }
   .music-pill-title { max-width: 120px; }
 }
