@@ -1,6 +1,6 @@
-# Productive Timer
+# Focus Timer
 
-Focused work timer with built-in music playback, custom audio uploads, and local productivity tracking.
+Focused work timer with built-in music playback, custom audio uploads, and local productivity tracking in the Northline suite.
 
 ## Live Demo
 [https://sbdkim.github.io/productive-timer](https://sbdkim.github.io/productive-timer)
@@ -33,6 +33,7 @@ Open `tests.html` in a browser to run the in-browser checks.
 ## Privacy / Notes
 - All data stays in the browser.
 - Media assets are loaded locally and the app does not require sign-in or a backend.
+- The public product name is `Focus Timer`, while the repo slug remains `productive-timer` until the rename pass.
 
 ## License
 MIT

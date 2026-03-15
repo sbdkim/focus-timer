@@ -9,7 +9,7 @@
   };
 
   var DEFAULTS = {
-    theme: "dark",
+    theme: "light",
     timerMode: "pomodoro",
     durations: {
       focus: 25,
@@ -574,7 +574,6 @@
 
     var els = {
       backgroundVideo: documentRef.querySelector(".video-background video"),
-      themeToggle: documentRef.getElementById("theme-toggle"),
       phaseTitle: documentRef.getElementById("phase-title"),
       phaseCaption: documentRef.getElementById("phase-caption"),
       sessionPill: documentRef.getElementById("session-pill"),
@@ -646,8 +645,7 @@
     }
 
     function applyTheme(theme) {
-      root.dataset.theme = theme === "light" ? "light" : "dark";
-      els.themeToggle.textContent = root.dataset.theme === "dark" ? "Light mode" : "Dark mode";
+      root.dataset.theme = "light";
     }
 
     function setUtilitiesVisible(visible) {
@@ -929,13 +927,6 @@
 
     var tickHandle = window.setInterval(runTick, 1000);
 
-    els.themeToggle.addEventListener("click", function () {
-      applyTheme(root.dataset.theme === "dark" ? "light" : "dark");
-      persistSettings();
-      hideBanner();
-      scheduleUtilityHide();
-    });
-
     els.modeButtons.forEach(function (button) {
       button.addEventListener("click", function () {
         env.timer.setMode(button.dataset.mode);
@@ -1104,9 +1095,6 @@
         }
         env.timer.reset();
         renderTimer();
-      } else if (event.key.toLowerCase() === "t") {
-        applyTheme(root.dataset.theme === "dark" ? "light" : "dark");
-        persistSettings();
       }
     });
 

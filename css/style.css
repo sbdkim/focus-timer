@@ -4,7 +4,7 @@
    Fonts:  Syne · Geist Mono · Outfit
 ───────────────────────────────────────────────────────────── */
 
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Outfit:wght@300;400;500&family=Geist+Mono:wght@200;300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@400;500;600;700&display=swap');
 
 /* ─── Dark mode tokens ────────────────────────────────────── */
 :root {
@@ -95,7 +95,7 @@ button, input { font: inherit; }
 button { cursor: pointer; border: none; background: none; color: inherit; padding: 0; }
 
 body {
-  font-family: "Outfit", system-ui, sans-serif;
+  font-family: var(--font-body);
   font-size: 15px;
   line-height: 1.6;
   color: var(--text);
@@ -236,7 +236,7 @@ body[data-theme="light"] .overlay {
 /* ─── Typography atoms ────────────────────────────────────── */
 .panel-kicker {
   margin: 0;
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -246,7 +246,7 @@ body[data-theme="light"] .overlay {
 
 .tray-label {
   margin: 0;
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-size: 0.62rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -280,7 +280,7 @@ body[data-theme="light"] .overlay {
   border-radius: var(--r-pill);
   background: transparent;
   color: var(--text-3);
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -306,7 +306,7 @@ body[data-theme="light"] .overlay {
 
 .status-title {
   margin: 0;
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-size: 0.80rem;
   font-weight: 600;
   color: var(--text-2);
@@ -326,7 +326,7 @@ body[data-theme="light"] .overlay {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: var(--text-3);
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.60rem;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -385,7 +385,7 @@ body[data-timer-running="true"] .timer-stage {
 }
 
 .timer-label {
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-size: 0.64rem;
   font-weight: 700;
   letter-spacing: 0.18em;
@@ -396,7 +396,7 @@ body[data-timer-running="true"] .timer-stage {
 
 /* THE number — hero of the whole screen */
 .timer-display {
-  font-family: "Geist Mono", "DM Mono", monospace;
+  font-family: var(--font-mono);
   font-size: clamp(5rem, 14vw, 8.5rem);
   font-weight: 200;
   letter-spacing: -0.02em;
@@ -557,7 +557,7 @@ body[data-timer-running="true"] .timer-hint { opacity: 0; }
 }
 
 .music-pill-title {
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--text);
@@ -571,7 +571,7 @@ body[data-timer-running="true"] .timer-hint { opacity: 0; }
   margin: 5px 0 0;
   font-size: 0.90rem;
   color: var(--text);
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-weight: 500;
   overflow-wrap: anywhere;
 }
@@ -645,7 +645,7 @@ body[data-theme="light"] .stat-card {
 .stat-card strong {
   display: block;
   margin-top: 8px;
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-size: 1.6rem;
   font-weight: 700;
   color: var(--text);
@@ -690,7 +690,7 @@ body[data-theme="light"] .stat-card {
 }
 
 .chart-bar span {
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.56rem;
   font-weight: 600;
   color: var(--text-3);
@@ -727,7 +727,7 @@ body[data-theme="light"] .stat-card {
 .session-item:last-child { padding-bottom: 0; border-bottom: 0; }
 
 .session-item strong {
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-body);
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--text);
@@ -786,7 +786,7 @@ body[data-theme="light"] .stat-card {
   border: 1px solid var(--line-bright);
   background: var(--glass);
   color: var(--text-2);
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -896,7 +896,7 @@ input[type="range"] {
 
 .audio-facts p {
   margin: 0;
-  font-family: "Geist Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
   font-weight: 300;
   color: var(--text-3);
