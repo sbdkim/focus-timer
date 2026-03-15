@@ -225,7 +225,7 @@
         };
         var controller = app.createAudioController({ audioElement: fakeAudio });
         controller.loadBuiltin();
-        assert(fakeAudio.src.indexOf("productive-timer-default.mp3") !== -1, "Built-in source should load");
+assert(fakeAudio.src.indexOf("focus-timer-default.mp3") !== -1, "Built-in source should load");
       });
 
       runTest("Invalid uploaded file is rejected safely", function () {

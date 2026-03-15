@@ -21,7 +21,7 @@
     audio: {
       type: "builtin",
       trackName: "3 AM Coding Session - Lofi Hip Hop Mix",
-      builtinSrc: "./assets/productive-timer-default.mp3"
+      builtinSrc: "./assets/focus-timer-default.mp3"
     }
   };
 
