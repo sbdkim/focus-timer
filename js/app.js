@@ -9,7 +9,7 @@
   };
 
   var DEFAULTS = {
-    theme: "light",
+    theme: "system",
     timerMode: "pomodoro",
     durations: {
       focus: 25,
@@ -645,7 +645,15 @@
     }
 
     function applyTheme(theme) {
-      root.dataset.theme = "light";
+      var resolvedTheme = theme === "dark" || theme === "light"
+        ? theme
+        : root.dataset.theme === "dark"
+          ? "dark"
+          : "light";
+      root.dataset.theme = resolvedTheme;
+      if (documentRef.body) {
+        documentRef.body.dataset.theme = resolvedTheme;
+      }
     }
 
     function setUtilitiesVisible(visible) {

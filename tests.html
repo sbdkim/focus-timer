@@ -5,13 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Focus Timer Tests | Northline</title>
   <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="stylesheet" href="./shared/tokens.css">
+  <link rel="stylesheet" href="./shared/darkmode.css">
+  <script src="./shared/darkmode.js"></script>
   <style>
     body {
       margin: 0;
       padding: 24px;
       font-family: "Manrope", sans-serif;
-      background: #f3f6fa;
-      color: #203044;
+      background: var(--color-surface-base);
+      color: var(--color-text-primary);
     }
 
     .results {
@@ -23,9 +26,9 @@
 
     .result {
       padding: 14px 16px;
-      border: 1px solid #c6d3e1;
+      border: 1px solid var(--color-border-default);
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.92);
+      background: color-mix(in srgb, var(--color-surface-raised) 92%, transparent);
     }
 
     .pass {
