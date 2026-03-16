@@ -827,8 +827,8 @@
       els.sessionList.innerHTML = "";
       if (!env.sessions.length) {
         var empty = documentRef.createElement("li");
-        empty.className = "session-item";
-        empty.innerHTML = "<div><strong>No sessions yet</strong><span>Start a focus block to build your history.</span></div>";
+        empty.className = "session-empty";
+        empty.innerHTML = "<strong>No sessions yet</strong><span>Start a focus block to build your history.</span>";
         els.sessionList.appendChild(empty);
         return;
       }
@@ -1138,3 +1138,4 @@
     createBrowserApp(createAppEnvironment());
   }
 }());
+

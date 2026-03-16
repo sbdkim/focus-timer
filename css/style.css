@@ -289,6 +289,18 @@ body[data-theme="light"] .overlay {
 
 .mode-button:hover { color: var(--text-2); }
 
+.mode-button:focus-visible,
+.icon-button:focus-visible,
+.pill-action:focus-visible,
+.utility-button:focus-visible,
+.history-toggle:focus-visible,
+.upload-button input:focus-visible + span,
+.field input:focus-visible,
+input[type="range"]:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-brand-accent) 28%, white);
+  outline-offset: 3px;
+}
+
 .mode-button.is-active {
   background: var(--accent);
   color: #1a0e04;
@@ -613,6 +625,13 @@ body[data-theme="light"] .music-panel {
   background: rgba(200, 220, 248, 0.22);
 }
 
+body[data-theme="light"] .music-pill,
+body[data-theme="light"] .stats-panel,
+body[data-theme="light"] .utility-tray {
+  background: rgba(232, 239, 247, 0.8);
+  border-color: rgba(89, 118, 161, 0.18);
+}
+
 /* ─── Stats panel ─────────────────────────────────────────── */
 .stats-panel {
   flex: 0 1 380px;
@@ -638,6 +657,20 @@ body[data-theme="light"] .music-panel {
 
 body[data-theme="light"] .stat-card {
   background: rgba(200, 220, 248, 0.35);
+}
+
+.session-empty {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+  border-radius: var(--r-md);
+  border: 1px dashed var(--line-bright);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.session-empty strong {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
 }
 
 .stat-card:hover { background: rgba(255,236,208,0.12); }
@@ -827,7 +860,7 @@ body[data-theme="light"] .stat-card {
   border: 1px solid var(--line-bright);
   background: var(--glass);
   color: var(--text-2);
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -876,7 +909,7 @@ body[data-theme="light"] .stat-card {
 
 .slider-field span,
 .field span {
-  font-family: "Syne", sans-serif;
+  font-family: var(--font-display);
   font-size: 0.60rem;
   font-weight: 700;
   letter-spacing: 0.13em;
@@ -1031,4 +1064,34 @@ body[data-theme="light"] .field input {
 
   .settings-grid { grid-template-columns: repeat(3, 1fr); }
   .music-pill-title { max-width: 120px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-fallback,
+  .timer-panel,
+  .music-pill,
+  .stats-panel,
+  .utility-tray,
+  .mode-button,
+  .icon-button,
+  .pill-action,
+  .utility-button,
+  .history-toggle,
+  .upload-button span,
+  .progress-ring-value {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  body[data-timer-running="true"] .timer-stage {
+    animation: none !important;
+  }
+
+  .icon-button:hover,
+  .pill-action:hover,
+  .utility-button:hover,
+  .history-toggle:hover,
+  .upload-button span:hover {
+    transform: none;
+  }
 }
