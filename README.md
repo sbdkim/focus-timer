@@ -1,11 +1,9 @@
 # Focus Timer
 
-Focused work timer with built-in music playback, custom audio uploads, and local productivity tracking in the Northline suite.
+A focused work timer with built-in audio playback, custom uploads, and local productivity tracking.
 
 ## Live Demo
 [https://sbdkim.github.io/focus-timer](https://sbdkim.github.io/focus-timer)
-
-![Screenshot](assets/screenshot.png)
 
 ## Key Features
 - Pomodoro and count-up timer modes
@@ -21,7 +19,7 @@ Focused work timer with built-in music playback, custom audio uploads, and local
 - `localStorage` for settings and history persistence
 
 ## Setup / Run Locally
-Open `index.html` in a browser.
+Open `index.html` directly in a browser, or serve the repo with a lightweight static server such as `python -m http.server`.
 
 ## Tests
 Open `tests.html` in a browser to run the in-browser checks.
@@ -30,8 +28,15 @@ Open `tests.html` in a browser to run the in-browser checks.
 - The repo is set up for GitHub Pages deployment from `main` through GitHub Actions.
 - Keep static asset paths relative so the same files work locally and on Pages.
 
-## Privacy / Notes
-- All data stays in the browser.
+## Project Layout
+- `index.html` main application entrypoint
+- `css/` timer styling and layout rules
+- `js/` timer, stats, and audio behavior
+- `assets/` screenshots and bundled media assets
+- `tests.html` browser-based regression checks
+
+## Notes
+- All timer data stays in the browser.
 - Media assets are loaded locally and the app does not require sign-in or a backend.
 - The public product name is `Focus Timer`, and the repo slug target is `focus-timer`.
 
