@@ -111,7 +111,7 @@ html[data-theme="dark"] body {
 }
 
 .theme-toggle:focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--color-accent) 40%, white);
+  outline: 3px solid color-mix(in srgb, var(--color-accent) 40%, transparent);
   outline-offset: 3px;
 }
 

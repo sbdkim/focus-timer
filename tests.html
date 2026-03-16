@@ -32,11 +32,13 @@
     }
 
     .pass {
-      border-color: rgba(22, 101, 52, 0.28);
+      border-color: color-mix(in srgb, var(--color-status-success) 30%, var(--color-surface-raised));
+      background: color-mix(in srgb, var(--color-status-success) 9%, var(--color-surface-raised));
     }
 
     .fail {
-      border-color: rgba(185, 28, 28, 0.34);
+      border-color: color-mix(in srgb, var(--color-status-error) 30%, var(--color-surface-raised));
+      background: color-mix(in srgb, var(--color-status-error) 9%, var(--color-surface-raised));
     }
   </style>
 </head>
