@@ -3,7 +3,7 @@
 A focused work timer with built-in audio playback, custom uploads, and local productivity tracking.
 
 ## Live Demo
-[https://sbdkim.github.io/focus-timer](https://sbdkim.github.io/focus-timer)
+[https://shinbum-focus-timer.vercel.app/](https://shinbum-focus-timer.vercel.app/)
 
 ## Key Features
 - Pomodoro and count-up timer modes
@@ -25,8 +25,9 @@ Open `index.html` directly in a browser, or serve the repo with a lightweight st
 Open `tests.html` in a browser to run the in-browser checks.
 
 ## Deployment Notes
-- The repo is set up for GitHub Pages deployment from `main` through GitHub Actions.
-- Keep static asset paths relative so the same files work locally and on Pages.
+- Production deploys are served from Vercel at `https://shinbum-focus-timer.vercel.app/`.
+- Pushes to `main` trigger automatic production deploys through the Vercel Git integration.
+- Static asset paths stay relative so the same files work locally and on Vercel.
 
 ## Project Layout
 - `index.html` main application entrypoint
