@@ -29,6 +29,12 @@ Open `tests.html` in a browser to run the in-browser checks.
 - Pushes to `main` trigger automatic production deploys through the Vercel Git integration.
 - Static asset paths stay relative so the same files work locally and on Vercel.
 
+
+## Branding / Theme Notes
+- This project uses the Northline product-family shell language for its public-facing page.
+- First visit defaults to light mode; dark mode is an explicit user choice and persists locally.
+- Shared shell decisions should stay consistent with the current Northline header/topbar, title scale, spacing, and surface model.
+
 ## Project Layout
 - `index.html` main application entrypoint
 - `css/` timer styling and layout rules
