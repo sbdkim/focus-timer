@@ -46,6 +46,9 @@
   --soft-panel: rgba(255, 236, 208, 0.08);
   --soft-panel-strong: rgba(255, 236, 208, 0.12);
   --empty-panel: rgba(18, 11, 5, 0.52);
+  --banner-bg: rgba(12, 8, 4, 0.94);
+  --banner-fg: #f5eadc;
+  --banner-border: rgba(255, 236, 208, 0.28);
 
   /* Shape */
   --r-sm:   12px;
@@ -92,6 +95,9 @@ body[data-theme="light"] {
   --soft-panel: rgba(200, 220, 248, 0.35);
   --soft-panel-strong: rgba(200, 220, 248, 0.48);
   --empty-panel: rgba(220, 232, 248, 0.46);
+  --banner-bg: rgba(244, 250, 255, 0.97);
+  --banner-fg: #0e1624;
+  --banner-border: rgba(70, 98, 141, 0.36);
 }
 
 /* ─── Reset ───────────────────────────────────────────────── */
@@ -983,12 +989,13 @@ body[data-theme="light"] .field input {
   max-width: 340px;
   padding: 13px 16px;
   border-radius: var(--r-md);
-  background: var(--glass-panel);
+  background: var(--banner-bg);
   backdrop-filter: blur(18px);
-  color: var(--text);
-  border: 1px solid var(--line-bright);
+  color: var(--banner-fg);
+  border: 1px solid var(--banner-border);
   box-shadow: var(--shadow);
   font-size: 0.86rem;
+  font-weight: 600;
   line-height: 1.5;
   z-index: 100;
   animation: banner-in 0.26s cubic-bezier(0.22,1,0.36,1) both;
