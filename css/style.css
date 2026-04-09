@@ -983,7 +983,7 @@ body[data-theme="light"] .field input {
   max-width: 340px;
   padding: 13px 16px;
   border-radius: var(--r-md);
-  background: rgba(12, 8, 4, 0.92);
+  background: var(--glass-panel);
   backdrop-filter: blur(18px);
   color: var(--text);
   border: 1px solid var(--line-bright);
