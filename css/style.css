@@ -219,13 +219,24 @@ body[data-theme="light"] .overlay {
 .sanctuary-layout {
   flex: 1;
   display: grid;
-  grid-template-rows: 1fr auto;
+  grid-template-rows: auto 1fr auto;
   min-height: 100vh;
+  width: min(var(--northline-shell-max-width), calc(100% - (var(--northline-shell-padding) * 2)));
+  margin: 0 auto;
+  padding: var(--northline-shell-padding) 0;
+}
+
+.northline-header {
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 0.9fr);
+  gap: var(--northline-shell-gap);
+  margin-bottom: 12px;
 }
 
 /* ─── Timer panel — floats over background, no card ─────── */
 .timer-panel {
-  grid-row: 1;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -507,7 +518,7 @@ body[data-timer-running="true"] .timer-hint { opacity: 0; }
 
 /* ─── Bottom tray ─────────────────────────────────────────── */
 .bottom-tray {
-  grid-row: 2;
+  grid-row: 3;
   display: flex;
   flex-direction: row;
   align-items: flex-end;
@@ -1021,6 +1032,10 @@ body[data-theme="light"] .field input {
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
+  }
+
+  .northline-header {
+    grid-template-columns: 1fr;
   }
 
   .music-pill  { width: 100%; }
