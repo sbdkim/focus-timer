@@ -221,7 +221,7 @@ body[data-theme="light"] .overlay {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
-  width: min(var(--northline-shell-max-width), calc(100% - max(3.5rem, (var(--northline-shell-padding) * 2))));
+  width: min(var(--northline-shell-max-width), calc(100% - (var(--northline-shell-padding) * 2)));
   margin: 0 auto;
   padding: var(--northline-shell-padding) 0;
 }
@@ -991,6 +991,11 @@ body[data-theme="light"] .field input {
   line-height: 1.5;
   z-index: 100;
   animation: banner-in 0.26s cubic-bezier(0.22,1,0.36,1) both;
+}
+
+.banner[hidden],
+.banner:empty {
+  display: none !important;
 }
 
 .banner[data-tone="warning"] { border-color: rgba(232,160,80,0.44); }
