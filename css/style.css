@@ -221,7 +221,7 @@ body[data-theme="light"] .overlay {
   display: grid;
   grid-template-rows: auto 1fr auto;
   min-height: 100vh;
-  width: min(var(--northline-shell-max-width), calc(100% - (var(--northline-shell-padding) * 2)));
+  width: min(var(--northline-shell-max-width), calc(100% - max(3.5rem, (var(--northline-shell-padding) * 2))));
   margin: 0 auto;
   padding: var(--northline-shell-padding) 0;
 }
