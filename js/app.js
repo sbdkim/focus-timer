@@ -612,13 +612,19 @@
     };
 
     function showBanner(message, tone) {
+      if (!message || !String(message).trim()) {
+        hideBanner();
+        return;
+      }
       banner.hidden = false;
+      banner.classList.add("is-visible");
       banner.textContent = message;
       banner.dataset.tone = tone || "warning";
     }
 
     function hideBanner() {
       banner.hidden = true;
+      banner.classList.remove("is-visible");
       banner.textContent = "";
       delete banner.dataset.tone;
     }

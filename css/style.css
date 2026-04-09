@@ -976,6 +976,7 @@ body[data-theme="light"] .field input {
 
 /* ─── Banner ──────────────────────────────────────────────── */
 .banner {
+  display: none;
   position: fixed;
   right: 18px;
   bottom: 18px;
@@ -993,8 +994,12 @@ body[data-theme="light"] .field input {
   animation: banner-in 0.26s cubic-bezier(0.22,1,0.36,1) both;
 }
 
+.banner.is-visible {
+  display: block;
+}
+
 .banner[hidden],
-.banner:empty {
+.banner:empty:not(.is-visible) {
   display: none !important;
 }
 
